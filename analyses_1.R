@@ -253,3 +253,31 @@ mtext("Species 2", side = 3, line = 0.5, adj = 0.02, cex = 1.5)
 # great, but this seems like a huge amount of copy-paste and a lot of
 #   opportunities for mistakes if we want to plot three species by
 #   four predictors. What if we had more species or more predictors?
+
+
+#--- Here are my functions
+
+
+
+plot_models <- function (model_name, species_no, ... ) {
+  plot_values <- predict(model_name, newdata = plot_data, type = "response")
+  precip_actual <- precip_seq * sd(data_set$precipitation_mm) + mean(data_set$precipitation_mm)
+  plot(plot_values ~ precip_actual,
+       type = "l",
+       bty = "l",
+       las = 1,
+       lwd = 2.5,
+       ylim = c(0, 1),
+       xlab = "Precipitation (mm)",
+       ylab = "Probabiliy of occurrence",
+       ...)
+  species_label <- paste("Species", species_no, sep=" ")
+  mtext(species_label, side = 3, line = 0.5, adj = 0.02, cex = 1.5)
+  
+  
+}
+
+plot_models(model_sp1, species_no=1,  col="red", ylim=c(0,2))
+plot_models(model_sp2, species_no=2, col="blue")
+plot_models(model_sp3, species_no=3, col="green")
+
